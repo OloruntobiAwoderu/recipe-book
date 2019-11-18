@@ -5,11 +5,11 @@ const UserRoutes = require("./routes/userRoutes")
 
 
 app.use(express.json())
-app.use('/', (req, res) => {
- res.sendFile('/index.html')
-})
-app.use('/users', UserRoutes)
 
+app.use('/users', UserRoutes)
+app.get("/", (req, res) => {
+    res.send("Welcome to my API");
+  });
 
 
 
