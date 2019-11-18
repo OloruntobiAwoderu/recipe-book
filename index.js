@@ -6,7 +6,7 @@ const UserRoutes = require("./routes/userRoutes")
 
 app.use(express.json())
 
-app.use('/users', UserRoutes)
+app.use('/api', UserRoutes)
 app.get("/", (req, res) => {
     res.send("Welcome to my API");
   });
