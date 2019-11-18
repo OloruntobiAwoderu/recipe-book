@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/OloruntobiAwoderu/recipe-book/issues"
   },
-  "homepage": "https://github.com/OloruntobiAwoderu/recipe-book#readme"
+  "homepage": "https://github.com/OloruntobiAwoderu/recipe-book#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.20.2",
+    "pg": "^7.12.1",
+    "sqlite3": "^4.1.0"
+  }
 }
