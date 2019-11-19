@@ -73,6 +73,24 @@ router.get("/users", restricted, (req, res) => {
     .catch(err => res.status(500).send(err));
 });
 
+router.get("/:id/recipes", (req, res) => {
+  const { id } = req.params;
+
+  Users
+    .getUsersRecipes(id)
+    .then(recipes =>
+      recipes.length
+        ? res.status(200).json(recipes)
+        : res
+            .status(404)
+            .json({ message: `The User doesn't have any recipes` })
+    )
+    .catch(() =>
+      res
+        .status(500)
+        .json({ error: "The User recipes could not be retrieved." })
+    );
+});
 
 function generateToken(user) {
   const payload = {

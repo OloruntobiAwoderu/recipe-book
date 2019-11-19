@@ -6,7 +6,8 @@ module.exports = {
   insert,
   update,
   remove,
-  findBy
+  findBy,
+  getUsersRecipes
 };
 
 function find() {
@@ -38,4 +39,9 @@ function remove(id) {
   return db("users")
     .where("id", Number(id))
     .del();
+}
+
+function getUsersRecipes(projectId) {
+  return db('recipes')
+    .where('user_id', projectId);
 }
