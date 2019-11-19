@@ -65,7 +65,7 @@ router.delete("/user/:id", restricted, (req, res) => {
     })
 })
 // Fetch users
-router.get("/users", restricted, (req, res) => {
+router.get("/", restricted, (req, res) => {
   Users.find()
     .then(users => {
       res.json({ users });
