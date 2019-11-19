@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Users = require("../helpers/userModel");
+
 const Recipes = require("../helpers/recipeModel");
 const restricted = require("../auth/authMiddleware");
 
@@ -10,8 +10,6 @@ router.get("/recipes", restricted, (req, res) => {
     })
     .catch(err => res.status(500).send(err));
 });
-
-
 
 router.delete("/:id", restricted, (req, res) => {
   const { id } = req.params;
@@ -43,7 +41,6 @@ router.put("/:id", restricted, (req, res) => {
     source,
     category,
     user_id
-    
   } = req.body;
   if (ingredients && instructions && title && source && category && user_id) {
     Recipes.update(id, req.body)
