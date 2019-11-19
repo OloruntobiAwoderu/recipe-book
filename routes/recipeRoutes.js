@@ -19,7 +19,7 @@ router.post("/:id", restricted, (req, res) => {
     title,
     source,
     category,
-    user_id
+   
   } = req.body;
   if (ingredients && instructions && title && source && category && user_id) {
     Recipes.insert(recipe)
@@ -36,7 +36,7 @@ router.post("/:id", restricted, (req, res) => {
       error:
         "Please provide ingredients, instructions, title, source and category for the recipe.",
       bodyexample: {
-        project_id: user_id,
+        project_id: "",
         instructions: "",
         source: "",
         category: "",
@@ -76,7 +76,7 @@ router.put("/:id", restricted, (req, res) => {
     title,
     source,
     category,
-    user_id
+    
   } = req.body;
   if (ingredients && instructions && title && source && category && user_id) {
     Recipes.update(recipe)
@@ -93,7 +93,7 @@ router.put("/:id", restricted, (req, res) => {
       error:
         "Please provide ingredients, instructions, title, source and category for the recipe.",
       bodyexample: {
-        project_id: user_id,
+        project_id: "",
         instructions: "",
         source: "",
         category: "",

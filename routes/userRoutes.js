@@ -91,6 +91,42 @@ router.get("/:id/recipes", (req, res) => {
         .json({ error: "The User recipes could not be retrieved." })
     );
 });
+router.post("/:id/recipes", restricted, (req, res) => {
+  const user_id = req.params.id;
+  const {
+    ingredients,
+    instructions,
+    title,
+    source,
+    category,
+   
+  } = req.body;
+  if (ingredients && instructions && title && source && category && user_id) {
+    Recipes.insert({...req.body, user_id})
+      .then(recipe => {
+        res.status(201).json({ recipe });
+      })
+      .catch(error => {
+        res.status(500).json({
+          error
+        });
+      });
+  } else {
+    res.status(400).json({
+      error:
+        "Please provide ingredients, instructions, title, source and category for the recipe.",
+      bodyexample: {
+        project_id: "",
+        instructions: "",
+        source: "",
+        category: "",
+        ingredients: "",
+        title: ""
+      }
+    });
+  }
+});
+
 
 function generateToken(user) {
   const payload = {
