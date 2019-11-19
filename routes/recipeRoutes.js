@@ -11,41 +11,7 @@ router.get("/recipes", restricted, (req, res) => {
     .catch(err => res.status(500).send(err));
 });
 
-router.post("/:id", restricted, (req, res) => {
-  const user_id = req.params.id;
-  const {
-    ingredients,
-    instructions,
-    title,
-    source,
-    category,
-   
-  } = req.body;
-  if (ingredients && instructions && title && source && category && user_id) {
-    Recipes.insert(recipe)
-      .then(recipe => {
-        res.status(201).json({ recipe });
-      })
-      .catch(error => {
-        res.status(500).json({
-          error
-        });
-      });
-  } else {
-    res.status(400).json({
-      error:
-        "Please provide ingredients, instructions, title, source and category for the recipe.",
-      bodyexample: {
-        project_id: "",
-        instructions: "",
-        source: "",
-        category: "",
-        ingredients: "",
-        title: ""
-      }
-    });
-  }
-});
+
 
 router.delete("/:id", restricted, (req, res) => {
   const { id } = req.params;
@@ -79,7 +45,7 @@ router.put("/:id", restricted, (req, res) => {
     
   } = req.body;
   if (ingredients && instructions && title && source && category && user_id) {
-    Recipes.update(recipe)
+    Recipes.update({...req.body, user_id})
       .then(recipe => {
         res.status(201).json({ recipe });
       })

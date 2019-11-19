@@ -7,7 +7,7 @@ const RecipeRoutes = require('./routes/recipeRoutes')
 
 app.use(express.json())
 
-app.use('/api', UserRoutes)
+app.use('/users', UserRoutes)
 app.use("/recipe", RecipeRoutes)
 app.get("/", (req, res) => {
     res.send("Welcome to my API");
