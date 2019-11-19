@@ -116,7 +116,7 @@ router.post("/:id/recipes", restricted, (req, res) => {
       error:
         "Please provide ingredients, instructions, title, source and category for the recipe.",
       bodyexample: {
-        project_id: "",
+        user_id,
         instructions: "",
         source: "",
         category: "",
