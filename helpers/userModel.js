@@ -1,4 +1,4 @@
-const db = require('../data/dbConfig')
+const db = require("../data/dbConfig");
 
 module.exports = {
   find,
@@ -11,23 +11,26 @@ module.exports = {
 };
 
 function find() {
-  return db("users")
-  .select('id', "name", "email")
+  return db("users").select("id", "name", "email");
 }
 
 function findById(id) {
   return db("users")
     .where({ id: Number(id) })
-    .first().select('id', "name", "email");
+    .first()
+    .select("id", "name", "email");
 }
 
 function findBy(filter) {
-  return db("users").where(filter).select('id', "name", "email");
+  return db("users")
+    .where(filter)
+    .select("id", "name", "email");
 }
 function insert(user) {
   return db("users")
-    .insert(user, 'id')
-    .then(ids => ({ id: ids[0] }));
+    .insert(user, "id")
+    .then(([id]) => this.findById(id))
+    //.then(ids => ({ id: ids[0] }));
 }
 
 function update(id, user) {
@@ -43,6 +46,5 @@ function remove(id) {
 }
 
 function getUsersRecipes(projectId) {
-  return db('recipes')
-    .where('user_id', projectId);
+  return db("recipes").where("user_id", projectId);
 }
