@@ -42,7 +42,7 @@ router.delete(
 router.put(
   "/:id",
   restricted,
-  middleware(schema.recipe, "body"),
+  middleware(schema.recipeUpdate, "body"),
   (req, res) => {
     const id = req.params.id;
 

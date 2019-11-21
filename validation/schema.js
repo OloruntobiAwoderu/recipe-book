@@ -26,6 +26,14 @@ const schemas = {
     category: Joi.string().required(),
     instructions: Joi.string().required()
   }),
+  recipeUpdate:Joi.object().keys({
+    title: Joi.string().required(),
+    source: Joi.string().required(),
+    ingredients: Joi.string().required(),
+    category: Joi.string().required(),
+    instructions: Joi.string().required(),
+    user_id: Joi.number().required()
+  }),
   IsaNumber: Joi.object().keys({
       id: Joi.number().required()
   })
