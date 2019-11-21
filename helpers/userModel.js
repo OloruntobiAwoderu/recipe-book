@@ -18,11 +18,11 @@ function find() {
 function findById(id) {
   return db("users")
     .where({ id: Number(id) })
-    .first();
+    .first().select('id', "name", "email");
 }
 
 function findBy(filter) {
-  return db("users").where(filter);
+  return db("users").where(filter).select('id', "name", "email");
 }
 function insert(user) {
   return db("users")

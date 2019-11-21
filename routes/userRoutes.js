@@ -61,7 +61,7 @@ router.put(
   }
 );
 
-router.delete("/:id", restricted,middleware(schema.IsaNumber, 'params'), (req, res) => {
+router.delete("/:id", restricted, (req, res) => {
   const id = req.params.id;
   Users.remove(id).then(user => {
     res.status(200).json({
@@ -79,7 +79,16 @@ router.get("/", restricted, (req, res) => {
     .catch(err => res.status(500).send(err));
 });
 
-router.get("/:id/recipes", middleware(schema.IsaNumber, 'params'),(req, res) => {
+router.get("/:id", restricted,(req, res) => {
+  const { id } = req.params
+  Users.findById(id)
+    .then(users => {
+      res.json({ users });
+    })
+    .catch(err => res.status(500).send(err));
+});
+
+router.get("/:id/recipes",(req, res) => {
   const { id } = req.params;
 
   Users.getUsersRecipes(id)

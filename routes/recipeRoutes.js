@@ -16,7 +16,7 @@ router.get("/", restricted, (req, res) => {
 router.delete(
   "/:id",
   restricted,
-  middleware(schema.IsaNumber, "params"),
+
   (req, res) => {
     const { id } = req.params;
     Recipes.remove(id)
