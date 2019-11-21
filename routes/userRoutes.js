@@ -4,8 +4,10 @@ const Recipes = require("../helpers/recipeModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const restricted = require("../auth/authMiddleware");
+const middleware = require("../validation/middleware");
+const schema = require("../validation/schema");
 
-router.post("/register", (req, res) => {
+router.post("/register", middleware(schema.user, "body"), (req, res) => {
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 10);
   user.password = hash;
@@ -21,7 +23,7 @@ router.post("/register", (req, res) => {
 });
 
 // Log in as user
-router.post("/login", (req, res) => {
+router.post("/login", middleware(schema.userLogin, "body"), (req, res) => {
   const { email, password } = req.body;
 
   Users.findBy({ email })
@@ -43,27 +45,31 @@ router.post("/login", (req, res) => {
     });
 });
 
-router.put("/:id", restricted, (req, res) => {
-  const id = req.params.id;
-  Users.update(id, req.body)
-    .then(user => {
-      res.status(200).json(user);
-    })
-    .catch(error => {
-      res.status(500).json({ error });
-    });
-});
-
-router.delete("/:id", restricted, (req, res) => {
+router.put(
+  "/:id",
+  restricted,
+  middleware(schema.recipe, "body"),
+  (req, res) => {
     const id = req.params.id;
-    Users.remove(id)
-    .then(user => {
-        res.status(200).json({
-            message: `User with the ${id} has been deleted`,
-            user
-        })
-    })
-})
+    Users.update(id, req.body)
+      .then(user => {
+        res.status(200).json(user);
+      })
+      .catch(error => {
+        res.status(500).json({ error });
+      });
+  }
+);
+
+router.delete("/:id", restricted,middleware(schema.IsaNumber, 'params'), (req, res) => {
+  const id = req.params.id;
+  Users.remove(id).then(user => {
+    res.status(200).json({
+      message: `User with the ${id} has been deleted`,
+      user
+    });
+  });
+});
 // Fetch users
 router.get("/", restricted, (req, res) => {
   Users.find()
@@ -73,17 +79,14 @@ router.get("/", restricted, (req, res) => {
     .catch(err => res.status(500).send(err));
 });
 
-router.get("/:id/recipes", (req, res) => {
+router.get("/:id/recipes", middleware(schema.IsaNumber, 'params'),(req, res) => {
   const { id } = req.params;
 
-  Users
-    .getUsersRecipes(id)
+  Users.getUsersRecipes(id)
     .then(recipes =>
       recipes.length
         ? res.status(200).json(recipes)
-        : res
-            .status(404)
-            .json({ message: `The User doesn't have any recipes` })
+        : res.status(404).json({ message: `The User doesn't have any recipes` })
     )
     .catch(() =>
       res
@@ -91,18 +94,14 @@ router.get("/:id/recipes", (req, res) => {
         .json({ error: "The User recipes could not be retrieved." })
     );
 });
-router.post("/:id/recipes", restricted, (req, res) => {
-  const user_id = req.params.id;
-  const {
-    ingredients,
-    instructions,
-    title,
-    source,
-    category,
-   
-  } = req.body;
-  if (ingredients && instructions && title && source && category && user_id) {
-    Recipes.insert({...req.body, user_id})
+router.post(
+  "/:id/recipes",
+  restricted,
+  middleware(schema.recipe, "body"),
+  (req, res) => {
+    const user_id = req.params.id;
+
+    Recipes.insert({ ...req.body, user_id })
       .then(recipe => {
         res.status(201).json({ recipe });
       })
@@ -111,22 +110,8 @@ router.post("/:id/recipes", restricted, (req, res) => {
           error
         });
       });
-  } else {
-    res.status(400).json({
-      error:
-        "Please provide ingredients, instructions, title, source and category for the recipe.",
-      bodyexample: {
-        user_id,
-        instructions: "",
-        source: "",
-        category: "",
-        ingredients: "",
-        title: ""
-      }
-    });
   }
-});
-
+);
 
 function generateToken(user) {
   const payload = {

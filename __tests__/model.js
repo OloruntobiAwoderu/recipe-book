@@ -60,12 +60,12 @@ const request = require("supertest");
   
       expect(res.status).toBe(201);
   
-      const jokes = await request(server)
+      const use = await request(server)
         .get("/users")
         .set("authorization", res.body.token);
   
-      expect(jokes.status).toBe(200);
-      expect(jokes.type).toMatch(/json/i);
+      expect(use.status).toBe(200);
+      expect(use.type).toMatch(/json/i);
     });
 
   });
