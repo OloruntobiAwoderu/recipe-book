@@ -34,9 +34,7 @@ const schemas = {
     instructions: Joi.string().required(),
     user_id: Joi.number().required()
   }),
-  IsaNumber: Joi.object().keys({
-      id: Joi.number().required()
-  })
+
   // define all the other schemas below
 };
 module.exports = schemas;
