@@ -1,5 +1,7 @@
 const Users = require("../helpers/userModel");
 const db = require("../data/dbConfig");
+const server = require("../api/server");
+const request = require("supertest");
 
  describe("Users model", () => {
    beforeEach(async () => {
@@ -44,6 +46,33 @@ const db = require("../data/dbConfig");
 
       const deleted = await Users.remove(1);
       expect(deleted).toBe(0);
+
     });
+    it("should require authorization", async () => {
+      const res = await request(server).get("/users");
+      expect(res.status).toBe(400);
+    });
+  
+    it("should return 200 when authorized", async () => {
+      const res = await request(server)
+        .post("/users/register")
+        .send({ email: "ademola4@gmail.com", password: "florence", name: "oloruntobi" });
+  
+      expect(res.status).toBe(201);
+  
+      const jokes = await request(server)
+        .get("/users")
+        .set("authorization", res.body.token);
+  
+      expect(jokes.status).toBe(200);
+      expect(jokes.type).toMatch(/json/i);
+    });
+
   });
 });
+
+
+
+
+ 
+

@@ -43,7 +43,7 @@ router.post("/login", (req, res) => {
     });
 });
 
-router.put("/user/:id", restricted, (req, res) => {
+router.put("/:id", restricted, (req, res) => {
   const id = req.params.id;
   Users.update(id, req.body)
     .then(user => {
@@ -54,7 +54,7 @@ router.put("/user/:id", restricted, (req, res) => {
     });
 });
 
-router.delete("/user/:id", restricted, (req, res) => {
+router.delete("/:id", restricted, (req, res) => {
     const id = req.params.id;
     Users.remove(id)
     .then(user => {

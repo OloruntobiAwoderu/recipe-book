@@ -3,10 +3,10 @@ const router = require("express").Router();
 const Recipes = require("../helpers/recipeModel");
 const restricted = require("../auth/authMiddleware");
 
-router.get("/recipes", restricted, (req, res) => {
+router.get("/", restricted, (req, res) => {
   Recipes.find()
-    .then(users => {
-      res.json({ users });
+    .then(recipe => {
+      res.json({ recipe });
     })
     .catch(err => res.status(500).send(err));
 });
