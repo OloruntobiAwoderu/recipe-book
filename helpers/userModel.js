@@ -24,7 +24,7 @@ function findById(id) {
 function findBy(filter) {
   return db("users")
     .where(filter)
-    .select("id", "name", "email");
+    
 }
 function insert(user) {
   return db("users")
@@ -36,8 +36,13 @@ function insert(user) {
 function update(id, user) {
   return db("users")
     .where("id", Number(id))
-    .update(user, "id");
+    .update(user, "id")
+    .then(() => {
+      return this.findById(id);
+   });
 }
+
+
 
 function remove(id) {
   return db("users")

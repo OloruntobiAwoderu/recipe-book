@@ -12,7 +12,7 @@ describe("POST /users/register", () => {
     const res = await request(server)
       .post("/users/register")
       .send({
-        email: "testuser",
+        email: "test@gmail.com",
         password: "testpassword",
         name: "oloruntobi"
       });
@@ -24,7 +24,7 @@ describe("POST /users/register", () => {
     const res = await request(server)
       .post("/users/register")
       .send({
-        email: "testuser",
+        email: "test@gmail.com",
         password: "testpassword",
         name: "oloruntobi"
       });
@@ -38,7 +38,7 @@ describe("POST /users/register", () => {
     await request(server)
       .post("/users/register")
       .send({
-        email: "testuser",
+        email: "test@gmail.com",
         password: "testpassword",
         name: "oloruntobi"
       });
@@ -46,7 +46,7 @@ describe("POST /users/register", () => {
     const res = await request(server)
       .post("/users/login")
       .send({
-        email: "testuser",
+        email: "test@gmail.com",
         password: "testpassword"
       });
 
@@ -57,7 +57,7 @@ describe("POST /users/register", () => {
     await request(server)
       .post("/users/register")
       .send({
-        email: "testuser",
+        email: "test@gmail.com",
         password: "testpassword",
         name: "oloruntobi"
       });
@@ -65,7 +65,7 @@ describe("POST /users/register", () => {
     const res = await request(server)
       .post("/users/login")
       .send({
-        email: "testuser",
+        email: "test@gmail.com",
         password: "testpassword"
       });
 
