@@ -48,18 +48,31 @@ router.post("/login", middleware(schema.userLogin, "body"), (req, res) => {
 router.put(
   "/:id",
   restricted,
-  middleware(schema.recipe, "body"),
+  middleware(schema.user, "body"),
   (req, res) => {
     const id = req.params.id;
     Users.update(id, req.body)
-      .then(user => {
-        res.status(200).json(user);
-      })
-      .catch(error => {
-        res.status(500).json({ error });
+    .then(num => {
+      if (num === 1) {
+        res.status(200).json({
+          message: `User with id ${id} successfully updated`
+        });
+      } else {
+        res.status(404).json({
+          message: "The user with the specified ID does not exist."
+        });
+      }
+    })
+    .catch(() => {
+      res.status(500).json({
+        error: "Internal Server error"
       });
-  }
+    });
+}
 );
+
+      
+      
 
 router.delete("/:id", restricted, (req, res) => {
   const id = req.params.id;

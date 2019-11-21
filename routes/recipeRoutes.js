@@ -47,15 +47,23 @@ router.put(
     const id = req.params.id;
 
     Recipes.update(id, req.body)
-      .then(recipe => {
-        res.status(201).json({ recipe });
-      })
-      .catch(error => {
-        res.status(500).json({
-          error
+    .then(num => {
+      if (num === 1) {
+        res.status(200).json({
+          message: `Recipe with id ${id} successfully updated`
         });
+      } else {
+        res.status(404).json({
+          message: "The recipe with the specified ID does not exist."
+        });
+      }
+    })
+    .catch(() => {
+      res.status(500).json({
+        error: "Internal Server error"
       });
-  }
+    });
+}
 );
 
 module.exports = router;
